@@ -1,0 +1,48 @@
+@import "../../../scss/index.scss";
+
+.register-form {
+
+  text-align: left;
+
+  .ant-form-item {
+    &:nth-child(3),
+    &:last-of-type {
+       margin: 0;
+    }
+  }
+
+  .register-form__input {
+    
+
+    input {
+      font-size: 0em + 20px / $defaultFontSize;
+      padding: 4px 20px 5px 15px !important;
+      
+      // // estilos borde nuevo usuario
+      // &:focus {
+        border-color: $primary-color;
+         box-shadow: none;
+      }
+    // }
+  }
+
+  &__button {
+    width: 100%;
+    font-size: 0em + 22px / $defaultFontSize;
+    background-color: $primary-color-hover;
+    color: $font-light;
+    height: 42px;
+
+    &:hover {
+      background-color: $primary-color-2;
+      color: $font-light;
+    }
+
+    &:focus,
+    &:active {
+      background-color: $primary-color-hover;
+      color: $font-light;
+      border: 0;
+    }
+  }
+}

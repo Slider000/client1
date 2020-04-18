@@ -1,0 +1,32 @@
+@import '../../../scss/index.scss';
+
+.menu-top{
+    display: flex;
+
+    button {
+        background-color: transparent ;
+        color: $font-light;
+        border:0;
+
+        &:hover{
+            color: $primary-color-hover;
+        }
+        &:focus,
+        &:active {
+            color: $font-light;
+        }
+    }
+
+    &__left{
+        .menu-top__left-logo {
+            width: 300px;
+            padding: 10 10px;
+        }
+    }
+
+    &__right{
+        position: absolute;
+        right: 0;
+    }
+
+}
