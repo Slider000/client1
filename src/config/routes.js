@@ -7,6 +7,7 @@ import LayoutBasic from "../layouts/LayoutBasic";
 
 import AdminHome from "../pages/Admin";
 import AdminSingIn from "../pages/Admin/SignIn";
+import AdminUsers from "../pages/Admin/Users";
 
 //pages
 import Home from "../pages/Home";
@@ -25,18 +26,23 @@ const routes = [
       {
         path: "/admin",
         component: AdminHome,
-        exact: true
+        exact: true,
       },
-      
+
       {
         path: "/admin/login",
         component: AdminSingIn,
+        exact: true,
+      },
+      {
+        path: "/admin/users",
+        component:AdminUsers,
         exact: true
       },
       {
-        component: Error404
-      }
-    ]
+        component: Error404,
+      },
+    ],
   },
   {
     path: "/",
@@ -46,19 +52,18 @@ const routes = [
       {
         path: "/",
         component: Home,
-        exact: true
+        exact: true,
       },
       {
         path: "/contact",
         component: Contact,
-        exact: true
+        exact: true,
       },
       {
-        component: Error404
-      }
-
-    ]
-  }
+        component: Error404,
+      },
+    ],
+  },
 ];
 
 export default routes;
