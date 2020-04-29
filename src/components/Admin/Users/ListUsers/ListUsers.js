@@ -1,17 +1,27 @@
 import React, { useState } from "react";
 import { Switch, List, Avatar, Button } from "antd";
-import { EditFilled , StopFilled  , DeleteFilled } from "@ant-design/icons";
+import {
+  EditFilled,
+  StopFilled,
+  DeleteFilled,
+  CheckOutlined,
+} from "@ant-design/icons";
 import NoAvatar from "../../../../assets/img/png/original.png";
+import Modal from "../../../Modal";
+import EditUserFrom from "../EditUserForm";
 
 import "./ListUsers.scss";
 
 export default function ListUsers(props) {
   const { usersActive, usersInactive } = props;
   const [viewUsersActives, setViewUsersActives] = useState(true);
+  const [isVisibleModal, setIsVisibleModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalContent, setModalContent] = useState(null);
 
   return (
     <div className="list-users">
-      <div className="list-users_switch">
+      <div className="list-users__switch">
         <Switch
           defaultChecked
           onChange={() => setViewUsersActives(!viewUsersActives)}
@@ -21,29 +31,54 @@ export default function ListUsers(props) {
         </span>
       </div>
       {viewUsersActives ? (
-        <UsersActive usersActive={usersActive} />
+        <UsersActive
+          usersActive={usersActive}
+          setIsVisibleModal={setIsVisibleModal}
+          setModalTitle={setModalTitle}
+          setModalContent={setModalContent}
+        />
       ) : (
-        <UsersInactive />
+        <UsersInactive usersInactive={usersInactive} />
       )}
+
+      <Modal
+        title={modalTitle}
+        isVisible={isVisibleModal}
+        setIsVisible={setIsVisibleModal}
+      >
+        {modalContent}
+      </Modal>
     </div>
   );
 }
 
 function UsersActive(props) {
-  const { usersActive } = props;
+  const {
+    usersActive,
+    setIsVisibleModal,
+    setModalTitle,
+    setModalContent,
+  } = props;
+
+  const editUser = (user) => {
+    setIsVisibleModal(true);
+    setModalTitle(
+      `Editar ${user.name ? user.name : "..."} ${
+        user.lastname ? user.lastname : "..."
+      }`
+    );
+    setModalContent(<EditUserFrom user={user} />);
+  };
 
   return (
     <List
-      className="users.active"
+      className="users-active"
       itemLayout="horizontal"
       dataSource={usersActive}
       renderItem={(user) => (
         <List.Item
           actions={[
-            <Button
-              type="primary"
-              onClick={() => console.log("Editar Usuario")}
-            >
+            <Button type="primary" onClick={() => editUser(user)}>
               <EditFilled />
             </Button>,
             <Button
@@ -53,11 +88,11 @@ function UsersActive(props) {
               <StopFilled />
             </Button>,
             <Button
-            type="danger"
-            onClick={() => console.log("Eliminar Usuario")} 
+              type="danger"
+              onClick={() => console.log("Eliminar Usuario")}
             >
               <DeleteFilled />
-            </Button>
+            </Button>,
           ]}
         >
           <List.Item.Meta
@@ -74,6 +109,40 @@ function UsersActive(props) {
   );
 }
 
-function UsersInactive() {
-  return <h3>Lista De Usuarios Inactivos</h3>;
+function UsersInactive(props) {
+  const { usersInactive } = props;
+  return (
+    <List
+      className="users-active"
+      itemLayout="horizontal"
+      dataSource={usersInactive}
+      renderItem={(user) => (
+        <List.Item
+          actions={[
+            <Button
+              type="primary"
+              onClick={() => console.log("Activar Usuario")}
+            >
+              <CheckOutlined />
+            </Button>,
+            <Button
+              type="danger"
+              onClick={() => console.log("Eliminar Usuario")}
+            >
+              <DeleteFilled />
+            </Button>,
+          ]}
+        >
+          <List.Item.Meta
+            avatar={<Avatar src={user.avatar ? user.avatar : NoAvatar} />}
+            title={`
+        ${user.name ? user.name : "..."}
+        ${user.lastname ? user.lastname : "..."}
+        `}
+            description={user.email}
+          />
+        </List.Item>
+      )}
+    />
+  );
 }
